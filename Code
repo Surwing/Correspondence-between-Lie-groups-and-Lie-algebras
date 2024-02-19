@@ -1,0 +1,828 @@
+\documentclass[10pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage {mathtools}
+\usepackage{utopia} %font utopia imported
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+\usepackage[all]{xy}
+
+% set colors
+\definecolor{myNewColorA}{RGB}{126,12,110}
+\definecolor{myNewColorB}{RGB}{165,85,154}
+\definecolor{myNewColorC}{RGB}{203,158,197}
+\setbeamercolor*{palette primary}{bg=myNewColorC}
+\setbeamercolor*{palette secondary}{bg=myNewColorB, fg = white}
+\setbeamercolor*{palette tertiary}{bg=myNewColorA, fg = white}
+\setbeamercolor*{titlelike}{fg=myNewColorA}
+\setbeamercolor*{title}{bg=myNewColorA, fg = white}
+\setbeamercolor*{item}{fg=myNewColorA}
+\setbeamercolor*{caption name}{fg=myNewColorA}
+\usefonttheme{professionalfonts}
+\usepackage{natbib}
+\usepackage{hyperref}
+%------------------------------------------------------------
+\titlegraphic{\includegraphics[height=1.5cm]{figures/CityULogo.pdf}}
+
+\setbeamerfont{title}{size=\large}
+\setbeamerfont{subtitle}{size=\small}
+\setbeamerfont{author}{size=\small}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{institute}{size=\small}
+\title[City University of Hong Kong]{The correspondence between Lie groups and Lie algebras
+}
+\author[LW-c]{Louis Wong}
+
+\institute[@my.cityu.edu.hk]{}
+\date[Presentation]
+{\today}
+
+%------------------------------------------------------------
+%This block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+%\AtBeginSection[]
+%{
+%  \begin{frame}
+%    \frametitle{Contents}
+%    \tableofcontents[currentsection]
+%  \end{frame}
+%}
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+%------------------------------------------------------------
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+\begin{frame}
+\frametitle{Contents}
+\tableofcontents
+\end{frame}
+%------------------------------------------------------------
+
+\section{Introduction}
+\begin{frame}{Introduction}
+  In this PowerPoint, we will first introduce basic concepts in manifold theory, then give an introduction to Lie theory including Lie groups and Lie algebras. One of the main tasks is to answer the following question: 
+  Can we realize every Lie algebra $\mathfrak{L}$ as the Lie algebra of some Lie group, i.e. is there 
+  a Lie group $G$ such that $\mathfrak{L}=\mathrm{Lie}(G) $ ? \\ 
+  Then we will give some fundamental theorems in Lie theory to give a correspondence between Lie groups and Lie algebras: There is a one-to-one correspondence between isomorphic classes of finite-dimensional Lie algebras and that of isomorphic classes of simply connected Lie groups. 
+  In other words, the category of finite-dimensional Lie algebras and that of simply connected Lie groups are equivalent. \\ 
+  Finally, we will use some basic results in Lie theory to solve some ODEs.
+\end{frame}
+
+\section{Manifold Theory}
+    \begin{frame}{Smooth Manifold}
+    A \textbf{locally Euclidean space} $M$ of dimension $d$ is a Hausdorff topological space $M$ for which each point has a neighborhood homeomorphic to an open subset of Euclidean space $\mathbb{R}^d$. 
+    If $\varphi$ is a homeomorphism of a connected open set $U\in M$ onto an open subset of $\mathbb{R}^d$, $\varphi$ is called a coordinate map, the functions $x_{i}=r_{i}\circ \varphi $ are called 
+    the coordinate functions, and the pair $(U,\varphi )$ (or sometimes denoted by $(U,x_{1},\ldots ,x_{n})$) is called a coordinate system. 
+    
+    A \textbf{differentiable structure} $\mathfrak{F}$ of class $C^{k}(1\leq k\leq \infty )$ on a locally Euclidean space $M$ is a collection of coordinate systems $\left\{ (U_{\alpha} ,\varphi _{\alpha }): \alpha \in A \right\} $
+    satisfying the following three properties:
+    \begin{enumerate}
+    \item $\bigcup\limits_{\alpha \in A} U_{\alpha } =M$\\ 
+    \item $\varphi _{\alpha }\circ \varphi _{\beta }^{-1}$ is $C^{k}$ for all $\alpha , \beta \in A$\\
+    \item The collection $\mathfrak{F}$ is maximal with respect to (2): if $(U, \varphi )$ is a coordinate system such that $\varphi \circ \varphi _{\alpha }^{-1}$ and $\varphi _{\alpha }\circ \varphi ^{-1}$ are 
+    $C^{k}$ for all $\alpha \in A$, then $(U,\varphi )\in \mathfrak{F}$.  
+    \end{enumerate}  
+
+    \end{frame}
+
+\begin{frame}{Smooth Manifold}
+  If $\mathfrak{F}_{0}$ is any collection of coordinate systems satisfying properties (1) and (2), then there is a unique differentiable structure $\mathfrak{F}$ containing $\mathfrak{F}_{0}$.
+  Namely, \[\mathfrak{F}=\left\{ (U,\varphi ): \varphi \circ \varphi _{\alpha }^{-1} \mbox{ and } \varphi _{\alpha }\circ \varphi ^{-1}  \mbox{ are } C^{k} \mbox{ for all } \varphi _{\alpha }\in \mathfrak{F}_{0}\right\} \]
+  
+  A $d$-dimensional \textbf{differentiable manifold} of class $C^{k}$ is a pair $(M,\mathfrak{F})$ consisting of a $d$-dimensional, second countable, locally Euclidean space $M$ together with a differentiable 
+  structure $\mathfrak{F}$ of class $C^{k}$. We only consider the smooth manifold now, whereas when we talk about the smooth manifold, we mean the differentiable structure is $C^{\infty}$. 
+\end{frame} 
+
+\begin{frame}{Second Countability}
+  We require Hausdorff separation properties because it is such an important property in topology, for example, in Hausdorff space, a convergence sequence can not have two different limit points. \\
+  We naturally think of compact subsets as closed subsets as it truly is in Euclidean space, and in Hausdorff space, a compact subset is closed. \\
+  And also a continuous map from the compact space to a Hausdorff space is a closed map, (it takes closed subsets to closed subsets). \\
+  Also, compact Hausdorff spaces and LCH spaces have so many nice properties.
+\end{frame} 
+
+\begin{frame}{Second Countability}
+  Why do we need a second Countability? One reason I can think of is that this property can guarantee the existence of partition of unity on manifolds which is a very important technique and allows us to 
+  construct global objects out of locally defined objects. The point of P.O.U. is to take functions (or differential forms or vectors fields or tensor fields, in general) that are locally defined, bump them 
+  off so that they are smooth $0$ outside their domain of definition, and then add them all up to get the same object globally smoothly defined. \\
+  For example, suppose you have a closed surface $S$ in $\mathbb{R} ^3$ that you can locally write $f=0$, but you don't know how to do so globally. You can cover $S$ with open sets $U_{\alpha }\subseteq  \mathbb{R} ^3$ on which you have smooth functions
+  $f_i: U_i \to \mathbb{R} $ with $f_i\equiv 0 $ on $U_i$. Now consider the open covering $\{U_\alpha \}\cup \{\mathbb{R} ^3-S\}$ of $R^3$ and the P.O.U $\{\varphi _i\}\cup \{\tilde{\varphi }\}$  subordinate to the cover this cover such that $\varphi $
+  is compactly supported in $\{\mathbb{R} ^3-S\}$. Now $f=\sum\limits_{i} \varphi_i f_i+\tilde{\varphi }\tilde{f} $ where $\tilde{f}: \mathbb{R} ^3-S \to \mathbb{R} $ is $f \equiv 1$. $f$ thus defined is a globally smooth map on $R^3$ that vanishes on $S$.   
+\end{frame}
+
+\begin{frame}{Partition of Unity}
+  A \textbf{partition of unity} on $M$ is a collection $\{\varphi _\alpha :\alpha \in A\} $ of smooth functions on $M$ such that 
+  \begin{itemize}
+  \item the collection of supports {supp $\varphi _\alpha : \alpha \in A$ } is locally finite. \\ 
+  \item  $\sum\limits_{\alpha \in A} \varphi _{\alpha }(p)=1 $ for all $p \in M$ and $\varphi _{\alpha }(p)\geq 0$ for all $p \in M$ and $\alpha \in A$.     
+  \end{itemize} A partition of unity $\{\varphi _{\alpha }:\alpha \in A\}$ is subordinate to the cover $\{U_{\beta }:\beta \in B\}$ if for each $\alpha $ there exists a $\beta $ such that $\mathrm{supp} \varphi _{\alpha }\subseteq U_{\beta }$.\\
+
+\end{frame} 
+
+\begin{frame}{Partition of Unity}
+  Let $M$ be a differential manifold and $\{U_{\alpha }:\alpha \in A\}$ an open cover of $M$. Then there exists a countable partition of unity $\{\varphi _{i}:i \in \mathbb{Z} \}$ subordinate to the cover $\{U_\alpha :\alpha \in A\}$
+  with $\mathrm{supp} \varphi _i$ compact for each $i$. \\
+  One important corollary of P.O.U. is the existence of bump functions of closed subsets in a manifold: Let $G$ be an open subset of $M$ containing a closed subset $A$ in $M$. Then there exists a smooth bump function $\varphi : M\to \mathbb{R} $  for $A$ supported in $G$:
+  \begin{itemize}
+  \item $0\leq \varphi \leq 1$ for all $p \in M$. \\ 
+  \item $\varphi (p)=1$ if $p \in A$, \\
+  \item $\mathrm{supp} \varphi \in G$. 
+  \end{itemize}       
+\end{frame} 
+
+\begin{frame}{Smooth Mapping}
+  Let $U \in M$ be open. We say that $f: U\to \mathbb{R} $ is a \textbf{smooth function} on $U$ (denoted as $f\in C^{\infty}(U)$ ) if $f \circ \varphi ^{-1}$ is $C^{\infty}$ for each coordinate map $\varphi $ on $M$.\\
+  A continuous map $\varphi :M\to N$ is said to be smooth if $\psi \circ \varphi \circ \tau ^{-1}$ is $C^{\infty}$ for each coordinate map $\tau $ on $M$ and $\psi $ on $N$. 
+
+  
+\end{frame} 
+
+\begin{frame}{Tangent Space}
+  A \textbf{curve} $\gamma $  on $M$ is a $C^{1}$ map from some open interval of $\mathbb{R} $ containing $0$ to $M$. \\ 
+  A \textbf{tangent vector} at $p \in M$ is defined as $\gamma ^{\prime} (0)$ for some curve $\gamma $ on $M$ starting at $p$: $\gamma (0)=p$.\\
+  Equivalently, a tangent vector $v \in T_{p}(M)$ can be viewed as a local derivative on $C^{\infty }(M)$: $v$ is linear functional of $C^{\infty }(M)$ and satisfies the Leibniz rule: $v(fg)=v(f)g(p)+v(g)f(p)$ for $f,g \in C^{\infty }(M)$, 
+  where $\gamma ^{\prime} (0)(f):=\frac{d}{dt}|_{t=0} f \circ \gamma (t) $. \\ 
+  The \textbf{tangent space} can be defined as the quotient vector space: \[T_{p}M \triangleq \{\gamma ^{\prime} (0): \gamma \mbox{ is a } C^{1} \mbox{ curve }\}/\thicksim 
+  \] where the equivalence relation is as follows: $\gamma ^{\prime} (0)=\eta ^{\prime} (0)$ if $\gamma ^{\prime} (0)(f)=\eta ^{\prime} (0)(f) $ for each smooth function $f$ on $M$.\\
+  
+\end{frame} 
+
+\begin{frame}{Tangent space}
+  We next show the tangent space $T_{p}(M)$ for each $p \in M$  is a finite-dimensional space with the same dimension of $M$:\\ 
+  First, we consider the simple manifold $\mathbb{R} ^n$ and see what a tangent vector is in this manifold. We choose $v=(v_{1},\ldots, v_{n})\in T_{p}M$ and choose a corresponding curve 
+  $\gamma (t)=p+tv=(p_{1}+tv_{1},\ldots ,p_{n}+tv_{n})$. (We can choose the tangent vector in this way because the manifold we are considering is a vector space, addition and scalar multiplication make sense).
+  \begin{align*}
+  v(f)&=\gamma ^{\prime} (0)(f)=\frac{d}{dt}|_{t=0} f \circ \gamma (t)\\ 
+      &=\lim\limits_{t \to 0} \dfrac{f(p+tv)-f(p)}{t} \\ 
+      &=\lim\limits_{t \to 0} \dfrac{f(p_{1}+tv_{1},\ldots ,p_n+tv_n)-f(p_{1},\ldots ,p_{n})}{t} \\ 
+      &=v_{1}\frac{\partial f}{\partial r_1}(p)+\ldots +\frac{\partial f}{\partial r_n}(p)\\ 
+      &=v_1 \frac{\partial}{\partial r_1}|_{p} (f)+\ldots +v_{n} \frac{\partial}{\partial r_n}|_{p} (f) 
+  \end{align*}
+  \end{frame}
+
+\begin{frame}{Tangent space}
+This shows that the tangent vector is a directional derivative ($v=D_{v}$) since $\frac{\partial}{\partial r_{i}}=D_{e_{i}} $ is the $i$-th directional derivative. \\
+$v=D_{v}=D_{\sum v_{i}e_{i}}=\sum v_{i}D_{e_{i}}$ and $D_{e_{i}}$ is linearly independent (taking $f=r_{i}$ ). This shows that 
+\begin{align*}
+  T_{p}\mathbb{R} ^n =\bigoplus\limits_{i=1}^{n} \mathbb{R} D_{e_{i}}|_{p} = \mathbb{R} ^n
+ \end{align*} 
+ The tangent space of a vector space is isomorphic to this vector space, hence they have the same dimension!\\
+ To use this example to illustrate the tangent space in a general manifold $M$, we first define the differential of a smooth map: \\ 
+ Let $\psi :M \to N$ be a smooth map, then the differential $d\psi  $ is defined as follows:
+$d\psi :T_{p}(M)\to T_{\psi (p)}(N)$ such that, for $v \in T_{p}(M)$, $d\psi (v) $ acts on $C^{\infty }(N)$ as follows: $d\psi (v)(f):=v(f \circ \psi ) $.\\
+In this case, $d\psi (v) $ is called the pushforward of the tangent vector $v$ by the smooth map $\psi $. 
+\end{frame}
+
+\begin{frame}{Tangent space}
+For a coordinate map $(U, \psi )$ of $p \in M$, $\psi ^{-1}: \mathbb{R} ^n \to U \subseteq M$ is a diffeomorphism, then the differential $d\psi : T_{\psi (p)}\mathbb{R} ^n \to T_{p}M $ is a vector space isomorphism. \\
+Since $\left\{ \frac{\partial}{\partial r_{i}}  \right\}_{1 \leq i \leq n} $ is a basis of $T_{\psi (p)}\mathbb{R} ^n$, then $\left\{d\psi ^{-1}(\frac{\partial}{\partial r_{i}} ) \right\}_{1\leq i \leq n} $ is a basis for $T_{p}M$. 
+This argument shows for a general manifold $M$, the tangent space $T_{p}(M)$ for each $p \in M$  is a finite-dimensional space with the same dimension of $M$. \\
+In the coordinate chart $(U,\psi )=(U,x_{1},\ldots ,x_n)$ of $p$, we define 
+\begin{align*}
+  \frac{\partial}{\partial x_{i}}= d\psi ^{-1}(\frac{\partial}{\partial r_{i}} )
+ \end{align*} 
+Then, for each $f\in C^{\infty }(M)$, $\frac{\partial }{\partial x_{i}}|_{p}(f) = d\psi ^{-1}(\frac{\partial}{\partial r_{i}} )(f)=\frac{\partial (f \circ \psi ^{-1})}{\partial r_{i}} $. We thus interpret 
+$\frac{\partial}{\partial x_{i}} $ as the directional derivative at $p \in M$ in the $x_{i}$-th coordinate direction. Thus, the tangent space $T_{p}M$ is a vector space spanned by the directional derivative in each $x_{i}$ direction.       
+
+
+\end{frame}
+
+\begin{frame}{Jacobian Matrix}
+  Given $\psi :M \to N$, the coordinate charts $(U,x_{1},\ldots ,x_{n})$ of $p \in M$ and $(V,y_{1},\ldots ,y_{n})$ of $\psi (p) \in N$, we calculate the Jacobian as follows:\\ 
+  \begin{align*}
+  d\psi (\frac{\partial}{\partial x_{i}} )(f)&=\frac{\partial}{\partial x_{i}}(f \circ \psi )=\sum\limits_{k=1}^{n} \frac{\partial f}{\partial y_{k}} \frac{\partial (y_{k} \circ \psi) }{\partial x_{i}}   \\ 
+  d\psi (\frac{\partial}{\partial x_{i}} )&=\sum\limits_{k=1}^{n} \frac{\partial f}{\partial y_{k}} \frac{\partial (y_{k} \circ \psi) }{\partial x_{i}}    \\ 
+   (\frac{\partial}{\partial x_{1}},\ldots ,\frac{\partial}{\partial _{n}}  )d\psi &=(\frac{\partial}{\partial y_{1}},\ldots ,\frac{\partial}{\partial y_{n}}  )\begin{pmatrix}
+    \frac{\partial (y_{1}\circ \psi) }{\partial x_{1}} & \dots & \frac{\partial (y_{1} \circ \psi) }{\partial x_{n}}  \\
+     & \ddots & \\ 
+    \frac{\partial (y_{n}\circ \psi) }{\partial x_{1}} &\dots & \frac{\partial (y_{n} \circ \psi) }{\partial x_{n}} 
+   \end{pmatrix} 
+    \end{align*} 
+    So when we fixed basis $\left\{ \frac{\partial}{\partial x_{i}}  \right\} $ for $T_{p}M$ and $\left\{ \frac{\partial}{\partial y_{j}}  \right\} $ for $T_{\psi (p)}N$, $d\psi :T_{p}M \to T_{\psi (p)}N $ 
+    has $\left\{ \frac{\partial (y_{i}\circ \psi) }{\partial x_{j}}  \right\} $ as its Jacobian. For maps between Euclidean spaces, the Jacobian matrix will always be taken w.r.t. the canonical coordinate systems and 
+    it coincides with the usual Jacobian matrix.
+\end{frame} 
+
+\begin{frame}{Computation of Differential}
+  We give a rigorous definition of $\gamma ^{\prime} (0)$ for a smooth curve $\gamma $ on $M$. Consider a smooth map $\gamma :(a,b) \to \mathbb{R} $. Then the tangent vector to the curve $\gamma $ at $t \in (a,b)$ is the vector 
+  \begin{align*}
+  \gamma ^{\prime} (0)= d \gamma (\dfrac{d}{dr}|_{r=t} ) \in T_{\gamma (t)}\mathbb{R} 
+   \end{align*}    
+  If we have a smooth map $F: M \to N$, we can calculate the differential $dF_{p}: T_{p}M \to T_{F(p)}N$ as follows: choose a smooth curve $\gamma $ in $M$ starting at $p$ and have tangent vector $v= \gamma ^{\prime} (0)$. Then 
+  $dF_{p}(v)=dF(\gamma ^{\prime} (0))=dF(d \gamma (\dfrac{d}{dr}|_{r=0} ))=d(F \circ \gamma )(\dfrac{d}{dr}|_{r=0} )=(F \circ \gamma )^{\prime} (0)$. \\ 
+  The third equation follows from the chain rule of the differential and the last equation follows from the definition of the tangent vector of a smooth curve.   \\ 
+  From the definition of $\gamma ^{\prime} (0)$, the tangent vector can be viewed as the pushforward of the basis vector $\dfrac{d}{dr}|_{r=0} $ of $T_{0}\mathbb{R} =\mathbb{R} $ to a tangent vector in $T_{p}M$ by the smooth map $\gamma $.     
+\end{frame} 
+
+\begin{frame}{Cotangent space}
+  For $p \in M$, we have the tangent space $T_{p}M$ at $p$. \\ 
+  We define the \textbf{cotangent space} as the dual space $T_{p}^{*}M$ of $T_{p}M$ and use the pairing $\left\langle v,\omega \right\rangle $ to denote the pairing between 
+  $v \in T_{p}M$ and $\omega \in T_{p}^{*}M$. \\ 
+  For a map $\psi :M \to N$, we have defined the differential $d\psi : T_{p}M \to T_{\psi (p)}N $, then $\delta \psi :T_{\psi (p)}^{*}N \to T_{p}^{*}M$ is defined as the adjoint map of $d\psi  $ :\\ 
+  $\left\langle v, \delta \psi (\omega ) \right\rangle := \left\langle d\psi (v), \omega   \right\rangle $, $v \in T_{p}M$ and $\omega \in T_{\psi (p)}^{*}N$.\\  
+  In the special case of a smooth function $f:M \to \mathbb{R} $, if $v \in T_{p}M$ and $f(p)=r_{0}$, then 
+  \begin{align*}
+  df(v)=df(\gamma ^{\prime} (0))=(f \circ \gamma )^{\prime} (0)=v(f)\frac{d}{dr}|_{r_{0}} 
+   \end{align*}    
+   In this case, we usually take $df $ to mean the element of $T_{p}^{*}M$ defined by $df(v)=v(f) $. That is, we identify $df $ with $\delta f(\omega )$, where $\omega $ is the basis of the 1-dimensional space
+   $T_{r_{0}}^{*}\mathbb{R}=\mathbb{R}  $ dual to $T_{r_{0}}\mathbb{R} =\mathbb{R} $. 
+
+\end{frame} 
+
+\begin{frame}{Cotangent space}
+With $df(v)=v(f)$ at hand and $\dfrac{\partial}{\partial x_{i}}x_{j}=d \psi ^{-1}(\dfrac{\partial f}{\partial x} )(r_{j} \circ \psi )=\dfrac{\partial}{\partial r_{i}}(r_{j} \circ \psi \circ \psi ^{-1})=\dfrac{\partial r_{j}}{\partial r_{i}}  =\delta _{i,j} $, we know $\{dx_{i}\}_{1\leq i\leq n}$ is the dual basis of $\{\frac{\partial}{\partial x_{i}} \}_{1\leq i\leq n}$. 
+Under this basis, we expand $df \in T_{p}^{*}M$ as follows:
+\begin{align*}
+df = \sum\limits_{i=1}^{n} \left\langle \frac{\partial}{\partial x_{i}}, df  \right\rangle  dx_{i} =\sum\limits_{i=1}^{n} (\dfrac{\partial f}{\partial x_{i}}|_{p}) dx_{i} 
+ \end{align*}    
+  \end{frame}
+
+\begin{frame}{Tangent Bundle}
+  The \textbf{tangent bundle} $TM$ of $M$ is defined as follows:
+  \begin{align*}
+  TM \triangleq \coprod\limits_{p \in M} T_{p}M
+   \end{align*} 
+   That is, the tangent bundle is the disjoint union of each tangent space, or we can interpret it as assigning the tangent space at each point to that point. \\ 
+   There is a natural projection: $\pi : TM \to M$, $\pi (v)=p$ if $v \in T_{p}M$. \\ 
+  Let $(U,\psi ) \in \mathfrak{F}$ be a coordinate chart of $p \in M$ with coordinate function $x_{i}$. Define $\tilde{\psi }: \pi ^{-1}(U) \to \mathbb{R} ^{2n}$ by 
+  \begin{align*}
+  \tilde{\psi }(v)=(x_{1}(\pi (v)),\ldots ,x_{n}(\pi (v)),dx_{1}(v),\ldots ,dx_{n}(v))
+   \end{align*}      
+  if $\psi (p)=(p_{1},\ldots ,p_{n})$ and $v=v_{1}\dfrac{\partial}{\partial x_{1}}+\ldots +v_{n}\dfrac{\partial}{\partial _{n}}  $, then $\tilde{\psi }(v)=(p_{1},\ldots ,p_{n},v_{1},\ldots ,v_{n})$.\\ 
+  We can construct a topology and differentiable structure on $TM$ such that $\left\{ (\pi ^{-1}(U),\tilde{\psi }): (U,\psi )\in \mathfrak{F} \right\} $ is a coordinate chart on $TM$ and $TM$ is a $2n$-dimensional smooth manifold. 
+  Details are omitted.     
+\end{frame} 
+
+\begin{frame}{Vector Field}
+  With smooth manifold $M$ and its tangent bundle $TM$ in mind, we define the concept of vector fields on $M$:\\ 
+  A \textbf{vector field} $X$ on $M$ is a right inverse of the projection $\pi :TM \to M$, that is, $\pi \circ X = \mathrm{id}_{X} $. This means at each point $p \in M$, we are assigned a tangent vector $X_{p} \in T_{p}M$. 
+  The set of smooth vector fields is denoted by $C^{\infty }(M, TM)$. For $f \in C^{\infty }(M)$, we defined $X(f): M \to \mathbb{R} $ as follows: $X(f)(p)=X_{p}(f)$.  \\ 
+  Fix a coordinate chart $(U,\psi )$  of $p$, since $T_{p}M$ is spanned by $\dfrac{\partial}{\partial x_{i}}|_{p} $, we know $X$ can be written as $X|_{U}=\sum\limits_{i=1}^{n} a_{i}\dfrac{\partial}{\partial x_{i}}  $ in $(U,\psi )$.\\  
+  When $X \in C^{\infty }(M,TM)$, each $a_{i}\in C^{\infty }(U)$. Equivalent, $X(f)=\sum\limits_{i=1}^{n}a_{i}\dfrac{\partial f}{\partial x_{i}}   \in C^{\infty }(M)$ for each $f \in C^{\infty }(M)$.   
+\end{frame} 
+
+\begin{frame}{Pushforward of Vector Fields}
+  We know a tangent vector can be pushforwarded by a smooth map, so we are interested in the question: Can a given smooth vector field $X$ on $M$ be pushforwarded by a smooth map $F:M \to N$?\\ 
+  We can't help but define the pushforward $F_{*}X$ of $X$ be $F$ as follows: $(F_{*}X)_{F(p)}=dF_{p}(X_{p})$, that is, at each point $F(p) \in N$, $(F_{*}X)_{F(p)}$ is the pushforward of the tangent vector $X_{p}$ by $F$.\\ 
+  But there is a severe problem: if $F$ is not injective, $q=F(p_{1})=F(p_{2}) \in N$, then by definition $(F_{*}X)_{q}=dF_{p_{1}}(X_{p_{1}})=dF_{p_{2}}(X_{p_{2}})$, and hence in general $(F_{*}X)_{q}$ will have two different values. 
+  On the other hand, if $F$ is not surjective, there exists $q \in N$ that does not have preimage in $M$, and thus $(F_{*}X)$ is not defined at $q$. \\ 
+  So we required $F$ to be a diffeomorphism to define the \textbf{pushforward} $F_{*}X$ of the vector field $X$ by $F$ by the following formula:
+  \begin{align*}
+    (F_{*}X)_{q}=dF_{F^{-1}(q)}(X_{F^{-1}(q)})
+   \end{align*}   
+\end{frame}
+
+\begin{frame}{Pushforward of Vector Fields}
+   With the same notation, we say two vector fields $X$ on $M$ and $Y$ on $N$ are \textbf{$F$-related} if $F_{*}X=Y$. Or equivalently, $dF \circ X = Y \circ F$.  In this case, 
+   \begin{align*}
+   (F_{*}X)_{q}(f)=dF_{p}(X_{p})(f)=X_{p}(f \circ F)=X(f \circ F)(p)\\ 
+   (F_{*}X)_{q}(f)=Y_{q}(f)=Y(f)(q)=Y(f)(F(p))=(Y(f))(F)(p)
+    \end{align*}    
+    \begin{align*}
+    X(f \circ F)=(Yf)(F)
+     \end{align*}     
+\end{frame} 
+
+\begin{frame}{Lie Group}
+  A \textbf{Lie group} $G$  is a smooth manifold and a group simultaneously, such that the group operations (multiplication and inversion) are smooth maps.\\ 
+ There are two important maps, the \textbf{left translation} and the \textbf{right translation}, in a  Lie group $G$. The left and right translations are defined as follows: 
+ \begin{align*}
+  L_{g}:& G \to G, L_{g}(h)=gh \\ 
+  R_{g}:& G \to G, R_{g}(h)=hg \mbox{ for } g,h \in G.
+  \end{align*}
+ We can check these two translation maps are both diffeomorphisms from $G$ to $G$: $L_{g}$ can be viewed as the composition of two smooth maps (the inclusion and the multiplication): $h \mapsto (g,h) \mapsto gh$ and its has smooth inverse $L_{g^{-1}}$
+ where $g^{-1}$ is the inverse of $g \in G$. Similarly, we can check the right translation is a diffeomorphism.      
+\end{frame} 
+
+\begin{frame}{Left invariant Vector Field}
+  A \textbf{left invariant vector field} $X$ on a Lie group $G$ is a vector field that is invariant under left translations, that is, $X$ is $L_{g}$-related to $X$:
+  \begin{align*}
+  (dL_{g})_{*}X=X
+   \end{align*} 
+   Written explicitly, 
+   \begin{align*}
+    &X_{h}=((dL_{g})_{*}X)_{h}=(dL_{g})_{L_{g}^{-1}(h)}X_{L_{g}^{-1}(h)}=(dL_{g})_{g^{-1}h}X_{g^{-1}h}\\ 
+    &(dL_{g})_{h}X_{h}=X_{gh}, \quad \forall g,h \in G
+    \end{align*} 
+    We next claim that a left invariant vector field $X$ is determined by its value at the unit element $e \in G$:
+    Given $X_{e} \in T_{e}G$, by left-invariance and the above formula, we see $X_{g}=(dL_{g})_{e}(X_{e})$. That is, we can get the value of $X$ by the pushforward of $X_{e} \in T_{e}G$ by the left translation. \\ 
+    It can be proved left invariant vector fields is automatically smooth.      
+\end{frame}
+
+\begin{frame}{Smoothnesss of left invariant vector fields}
+  We give proof that left invariant vector fields are automatically smooth. We use a result that a vector field $X$ on $M$ is smooth if and only if $X(f)\in C^{\infty }(M)$ for each $f \in C^{\infty }(M)$.\\ 
+  Let $v=X_{e}$, then for $g \in G$, $v^{L}(f)(g)=v^{L}_{g}(f)=dL_{g}(v)(f)=v(f \circ L_{g})$. Choose a smooth curve $\gamma $ on $G$ such that $\gamma(0)=e, v=\gamma ^{\prime} (0)$.\\ 
+  \begin{align*}
+    v(f \circ L_{g})&=\gamma ^{\prime} (0)(f \circ L_{g})=d(f \circ L_{g})(\gamma ^{\prime} (0))\\ 
+                    &=d(f \circ L_{g})(d \gamma (\dfrac{d}{dr}|_{r=0} )) \\ 
+                    &=d(f \circ L_{g} \circ \gamma )(\dfrac{d}{dr}|_{r=0} ) \\  
+                    &=\dfrac{d}{dr}|_{r=0} (f(g \gamma (t))) 
+   \end{align*} 
+  Let $\varphi (t,g)=f(g \gamma (t))$, then $\varphi $ is smooth in $t$ and $g$, since for $t$, it is a composition of smooth maps: $t \mapsto \gamma (t) \mapsto g \gamma (t) \mapsto f(g \gamma (t))$. \\ 
+  for $g \in G$, it is a composition of smooth maps: $g \mapsto g \gamma (t)\mapsto f(g \gamma (t))$.  
+\end{frame} 
+
+\begin{frame}{Smoothnesss of left invariant vector fields}
+  Proof to be continued:\\
+Now $v^{L}(f)(g)=\dfrac{\partial \varphi }{\partial t}(0,g) $ is smooth about $g$. \\
+So $v^{L}(f)$ is a smooth function for each $f \in C^{\infty }(M)$, hence $X=v^{L}$ is a smooth vector field.     
+  \end{frame}
+
+\begin{frame}{Lie Bracket of Vector Fields}
+  Given two vector fields $X$ and $Y$ on $M$, we define a vector field $\left[ X,Y \right] $ on $M$, called the \textbf{Lie bracket} of $X$ and $Y$ by setting 
+  \begin{align*}
+  \left[ X,Y \right]_{p}(f)=X_{p}(Yf)-Y_{p}(Xf) 
+   \end{align*}    
+   Choosing a coordinate chart $(U,x_{1},\ldots ,x_{n})$ of $p \in M$, if we write $X=\sum\limits_{i=1}^{n} a_{i}\dfrac{\partial}{\partial x_{i}}  $ and $Y=\sum\limits_{i=1}^{n} b_{i}\dfrac{\partial}{\partial x_{i}}$,
+   then $\left[ X,Y \right]=\sum\limits_{i} (\sum\limits_{j}(a_{j}\dfrac{\partial b_{i}}{\partial x_{j}}-b_{j}\dfrac{\partial a_{i}}{\partial x_{j}}  ) )\dfrac{\partial}{\partial x_{i}} =\sum\limits_{i} (X(b_{i})-Y(a_{i}))\dfrac{\partial}{\partial x_{i}}    $   \\     
+It's easy to check :
+\begin{itemize}
+\item $\left[ X,Y \right] $ is a smooth vector field on $M$.   \\ 
+\item The Lie bracket is bilinear. \\ 
+\item $\left[ X,Y \right]+\left[ Y,X \right]=0  $ for any $X,Y \in C^{\infty }(M,TM)$ . \\ 
+\item $\left[ \left[ X,Y \right],Z  \right]+\left[ \left[ Y,Z \right],X  \right]+\left[ \left[ Z,X \right],Y  \right]=0$ for any $X,Y,Z \in C^{\infty }(M,TM)$.  
+\end{itemize} 
+The last identity is called the Jacobi identity.
+  \end{frame} 
+
+\begin{frame}{Lie algebra}
+  A \textbf{Lie algebra} $\mathfrak{L}$ is a vector space endowed with a bilinear multiplication $\left[, \right]:\mathfrak{L}\times \mathfrak{L} \to \mathfrak{L} $, which is called the Lie bracket and satisfies the following properties:
+  \begin{itemize}
+  \item $\left[ x,y \right]+\left[ y,x \right]=0$ for any $x,y \in \mathfrak{L}$.     \\ 
+  \item $\left[ \left[ x,y \right],z  \right]+\left[ \left[ y,z \right],x  \right]+\left[ \left[ z,x \right],y  \right]=0    $ for any $x,y,z \in \mathfrak{L}$.  
+  \end{itemize}  
+  We thus have seen that the space $C^{\infty }(M, TM)$ of smooth vector fields endowed with the Lie bracket of vector fields is a Lie algebra in abstract algebraic settings. \\ 
+  A \textbf{Lie algebra homomorphism} $\varphi :\mathfrak{L} \to \mathfrak{L}^{\prime} $ is a linear map which preserves the Lie bracket: $\varphi (\left[ x,y \right] )=\left[ \varphi (x),\varphi (y) \right] $ for $x,y \in \mathfrak{L}$.   
+\end{frame} 
+
+\begin{frame}{Left Invariant Vector fields}
+  We recall that a smooth vector field $X$ on $M$ and $Y$ on $N$ are $F$-related by a smooth map $F:M \to N$ if $F_{*}X=Y$.\\
+  It can be proved that, if $X_{1} \in C^{\infty }(M,TM)$ are $F$-related to $Y_{1}\in C^{\infty }(N,TN)$, and $X_{2}\in C^{\infty }(M,TM)$ are $F$-related to $Y_{2}\in C^{\infty }(N,TN)$, 
+  then $\left[ X_{1},X_{2} \right]\in C^{\infty }(M,TM) $ is $F$-related to $\left[ Y_{1},Y_{2} \right]\in C^{\infty }(N,TN) $. 
+  \begin{align*}
+  F_{*}\left[ X_{1},X_{2} \right]=\left[ F_{*}X_{1},F_{*}X_{2} \right]  
+   \end{align*} This shows that the differential $dF$ for a smooth map is a Lie algebra homomorphism between $C^{\infty }(M,TM)$ and $C^{\infty }(N,TN)$. \\    
+  Now let us return to a Lie group $G$, if we have two left invariant vector fields $X,Y$, then $(dL_{g})_{*}X=X$ and $(dL_{g})_{*}Y=Y$, and thus we see 
+  \begin{align*}
+    (dL_{g})_{*}\left[ X,Y \right]=\left[ (dL_{g})_{*}X,(dL_{g})_{*}Y \right] =\left[ X,Y \right] 
+   \end{align*} 
+  Thus, the Lie bracket of two left invariant vector fields is still a left invariant vector field, and thus the collection of left invariant vector fields on a Lie group $G$ is a Lie algebra itself. 
+\end{frame} 
+
+\begin{frame}{Proof of the Identity}
+We give a proof for $F_{*}\left[ X_{1},X_{2} \right]=\left[ F_{*}X_{1},F_{*}X_{2} \right] $ :\\ 
+We must show that $dF \circ \left[ X_{1},X_{2} \right] = \left[ Y_{1},Y_{2} \right]\circ F $ by definition. \\ 
+For this, let $p \in M$ and $f \in C^{\infty }(M)$. \\ 
+Then we must show $(dF \circ \left[ X_{1},X_{2} \right])_{p}(f)=dF(\left[ X_{1},X_{2} \right]_{p} )(f)=\left[ Y_{1},Y_{2} \right]_{F(p)}(f) $.\\ 
+The proof goes as follows: 
+\begin{align*}
+  dF(\left[ X_{1},X_{2} \right]_{p} )(f) &= \left[ X_{1},X_{2} \right]_{p}(f \circ F) \\ 
+  &= (X_{1})_{p}(X_{2}(f \circ F))-(X_{2})_{p}(X_{1}(f \circ F))\\ 
+  &= (X_{1})_{p}((dF \circ X_{2})(f))-(X_{2})_{p}((dF \circ X_{1})(f))\\ 
+  &= (X_{1})_{p}(Y_{2}(f)\circ F)-(X_{2})_{p}(Y_{1}(f)\circ F)\\ 
+  &= dF(X_{1}|_{p})(Y_{2}(f))-dF(X_{2}|_{p})(Y_{1}(f))\\ 
+  &= (Y_{1})_{F(p)}(Y_{2}(f))-(Y_{2})_{F(p)}(Y_{1}(f))\\ 
+  &= \left[ Y_{1},Y_{2} \right]_{F(p)}(f) 
+ \end{align*} 
+\end{frame}
+
+\begin{frame}{The Lie Algebra of a Lie group}
+    We denote this Lie algebra of $G$ by $\mathrm{Lie}(G) $ and call it the \textbf{Lie algebra of the Lie group $G$}, and it consists of all left invariant vector fields on $G$. \\
+  We have shown before that a left invariant vector field is determined by its value at the unit element $e \in G$, that is, $X_{g}=(dL_{g})_{e}X_{e}$. \\ 
+  Thus, we identify the Lie algebra $\mathrm{Lie}(G) $ of $G$  with the tangent space $T_{e}G$ and also call $T_{e}G$ as its Lie algebra. (The following $\varphi $ is a vector space isomorphism.) \\
+  \begin{align*}
+  \varphi :\mathrm{Lie}(G) &\to T_{e}G \\ 
+  X  &\mapsto X_{e} \\ 
+  \varphi ^{-1}: T_{e}G &\to \mathrm{Lie}(G) \\ 
+v & \mapsto v^{L}
+   \end{align*} where $v^{L}(g)=(dL_{g})_{e}v$.  \\  
+We define a Lie algebra structure on $T_{e}G$ such that $\varphi $ is a Lie algebra homomorphism, then $\varphi $ is a Lie algebra isomorphism: \\ 
+$\left[ u,v \right]_{T_{e}G} \triangleq \varphi (\left[ \varphi ^{-1}(u), \varphi ^{-1}(v) \right]_{\mathrm{Lie(G)} } ) = (\left[ u^{L},v^{L} \right]_{\mathrm{Lie(G)} })_{e} $.
+
+   \end{frame}
+
+   \begin{frame}{Fundamental Question}
+  A fundamental question in Lie theory is: the Lie algebra $\mathrm{Lie}(G) $  of a Lie group $G$ is truly a Lie algebra in algebraic settings, but can we realize every Lie algebra $\mathfrak{L}$ as the Lie algebra of some Lie group, i.e. is there 
+  a Lie group $G$ such that $\mathfrak{L}=\mathrm{Lie}(G) $?    \\ 
+  The answer is yes in the real Lie group case, and the remaining task is to answer this question.
+\end{frame} 
+
+\begin{frame}{The Lie algebra of $\mathrm{GL}(n,\mathbb{R})$ }
+ $\mathrm{GL}(n,\mathbb{R} )$ is called the \textbf{general linear group} and is a classical group, and it consists of all the invertible $n\times n$ real matrices. \\ 
+ $\mathrm{GL}(n,\mathbb{R} )$ an open subset of $\mathbb{R} ^{n^2}$, hence is a $n^{2}$-dimensional manifold. It is easy to see the group operation of $\mathrm{GL}(n,\mathbb{R} )$ are both smooth:
+ Each coordinate function of $AB$ is a polynomial of coordinate functions of $A,B$ and each coordinate function of $A^{-1}$ is a rational function of coordinate functions of $A$. Thus $\mathrm{GL}(n,\mathbb{R} )$ is a Lie group. \\ 
+$\mathrm{Lie}(\mathrm{GL}(n,\mathbb{R} )) $ is isomorphic to the matrix algebra $\mathrm{M}(n,\mathbb{R} )$ consisting of all $n\times n$ matrices, and the Lie algebra of $\mathrm{GL}(n,\mathbb{R} ) $ is most commonly denoted as $\mathfrak{gl}(n,\mathbb{R} )$.\\ 
+\end{frame}
+
+\begin{frame}{The Lie algebra of $\mathrm{GL}(n,\mathbb{R})$ }
+We give a rigorous proof that as Lie algebras, $\mathrm{Lie}(\mathrm{GL}(n,\mathbb{R} )) $ is isomorphic to $\mathrm{M}(n,\mathbb{R} )$.\\ 
+The main step is to show, $T_{e}\mathrm{GL}(n,\mathbb{R} )$ is isomorphic to  $\mathrm{M}(n,\mathbb{R} ) $ as Lie algebras, since we have shown $\mathrm{Lie}(\mathrm{GL}(n,\mathbb{R} )) $ is isomorphic to $T_{e}\mathrm{GL}(n,\mathbb{R} ) $ as Lie algebras. \\ 
+The linear isomorphism between $T_{e}\mathrm{GL}(n,\mathbb{R} )$ and $\mathrm{M}(n,\mathbb{R} ) $ is as follows:\\ 
+\begin{align*}
+\varphi :T_{e}\mathrm{GL}(n,\mathbb{R} ) &\to \mathrm{M}(n,\mathbb{R} ) \\ 
+         \sum\limits_{i,j=1}^{n} a_{ij}\dfrac{\partial}{\partial _{ij}} & \mapsto (a_{ij})_{n\times n}  
+ \end{align*} 
+Since $\mathrm{M}(n,\mathbb{R} ) $ is a Lie algebra equipped with the Lie bracket $\left[ A,B \right]=AB-BA $, it remains to show  $\varphi (\left[ u,v \right]_{T_{e}G})= \varphi (u)\varphi (v)-\varphi (v)\varphi (u)$ for $u,v \in T_{e}\mathrm{GL}(n,\mathbb{R} ) $,  
+    
+\end{frame} 
+
+\begin{frame}{The Lie algebra $\mathfrak{gl}(n,\mathbb{R})$ }
+We use definition to verify in $\mathfrak{gl}(n,R) $, $\left[ u,v \right]_{T_{e}G} =\varphi ^{-1}(\varphi (u)\varphi (v)-\varphi (v)\varphi (u)) $ for $u,v \in \mathrm{gl}(n,\mathbb{R} ) $, 
+which completes the proof that $\mathfrak{gl}(n,R)$ is isomorphic to $\mathrm{M}(n,\mathbb{R} ) $.\\   
+We assume $u=X_{e}=\sum\limits_{i,j=1}^{n}a_{ij}\dfrac{\partial}{\partial x_{ij}}, v=Y_{e}=\sum\limits_{i,j=1}^{n} b_{ij}\dfrac{\partial}{\partial _{ij}} $ \\ 
+Choose two vector field $X,Y \in \mathfrak{gl}(n,\mathbb{R} ) $ such that $X_{e}=A,Y_{e}=B$.
+We choose a coordinate chart $(U,x_{ij}), 1\leq i,j\leq n$  for $e=I_{n} \in G$ where $e=I_{n}$ is the identity matrix.   \\     
+\begin{align*}
+&\left[ X,Y \right]_{e}(x_{ij})=X_{e}(Y(x_{ij}))-Y_{e}(X(x_{ij})) \\ 
+&Y(x_{ij})(g)=Y_{g}(x_{ij})=(dL_{g})_{e}Y_{e}(x_{ij})=Y_{e}(x_{ij}\circ L_{g}) \\ 
+&x_{ij}\circ L_{g}(h)=x_{ij}(gh)=\sum\limits_{k=1}^{n} x_{ik}(g)x_{kj}(h) \\ 
+&x_{ij}\circ L_{g}=\sum\limits_{k=1}^{n} x_{ik}(g)x_{kj}\\ 
+&Y(x_{ij})(g)=Y_{e}(x_{ij}\circ L_{g}) =Y_{e}(\sum\limits_{k=1}^{n} x_{ik}(g)x_{kj})=\sum\limits_{k=1}^{n} x_{ik}(g) Y_{e}(x_{kj})=\sum\limits_{k=1}^{n} x_{ik}(g) b_{kj}
+\end{align*} 
+\end{frame}
+
+\begin{frame}{The Lie algebra $\mathrm{gl}(n,\mathbb{R})$ }
+Verification to be continued:\\ 
+\begin{align*}
+Y(x_{ij}) & =\sum\limits_{k=1}^{n} b_{kj}x_{ik} \\
+dx_{ij}(\left[ X,Y \right]_{e})  & = \left[ X,Y \right]_{e}(x_{ij}) \\ 
+                                 & = X_{e}(Y(x_{ij}))-Y_{e}(X(x_{ij})) \\ 
+                                 & = X_{e}(\sum\limits_{k=1}^{n} b_{kj}x_{ik}) -Y_{e}(\sum\limits_{k=1}^{n} a_{kj}x_{ik}) \\ 
+                                 & = \sum\limits_{k=1}^{n} b_{kj}X_{e}(x_{ik}) -\sum\limits_{k=1}^{n} a_{kj}Y_{e}(x_{ik}) \\ 
+                                 & = \sum\limits_{k=1}^{n} b_{kj}a_{ik} -\sum\limits_{k=1}^{n} a_{kj}b_{ik}\\ 
+                                 & = dx_{ij}(\varphi ^{-1}(\varphi (u)\varphi(v)-\varphi (v)\varphi (u)))
+ \end{align*} 
+ \end{frame}
+
+ \begin{frame}{The Lie algebra $\mathrm{gl}(n,\mathbb{R})$ }
+  Verification to be continued:\\ 
+ Thus, we showed $\left[ u,v \right]_{T_{e}G} := \left[ X,Y \right]_{e}=\varphi ^{-1}(\varphi (u)\varphi (v)-\varphi (v)\varphi (u))$.\\ 
+ Thus, $\varphi (\left[ u,v \right]_{T_{e}G} )=\varphi (u)\varphi (v)-\varphi (v)\varphi (u)=[\varphi (u)\varphi (v)-\varphi (v)\varphi (u)]$  
+\end{frame}
+
+\begin{frame}{Homomorphisms of Lie Groups}
+  A \textbf{Lie group homomorphism} $\varphi:G \to H$ is a smooth map and also a group homomorphism. We next prove each Lie group homomorphism $\varphi :G \to H$ induces a Lie algebra homomorphism $\mathfrak{g}=\mathrm{Lie}(G) \to \mathfrak{h}=\mathrm{Lie}(H)$.\\ 
+ Since $\varphi $ is a group homomorphism, $\varphi $ maps the identity element of $G$ to the identity element of $H$, then the differential $d \varphi $ of $\varphi $ is a linear map of $G_{e}$ to $H_{e}$. Using the natural identifications of 
+ the tangent spaces at identities with the Lie algebras, this linear map $d \varphi $ of $G_{e}$ into $H_{e}$ induces a linear map of $\mathfrak{g}$ into $\mathfrak{h}$ which we shall also denote by $d \varphi $. Thus 
+ \begin{align*}
+ d \varphi : \mathfrak{g} \to \mathfrak{h}
+  \end{align*}  
+  where if $X \in \mathfrak{g}$, then $d \varphi (X)$ is the unique left invariant vector field on $H$ such that 
+  \begin{align*}
+  d \varphi (X)(e)=d \varphi (X(e))
+   \end{align*}     
+
+\end{frame} 
+\begin{frame}{Homomorphisms of Lie Groups}
+Let $G$ and $H$ be Lie groups with Lie algebras $\mathfrak{g}$ and $\mathfrak{h}$ respectively, and let $\varphi:G \to H$ be a homomorphism. Then 
+\begin{itemize}
+\item $X$ and $d \varphi (x)$ are $\varphi $-related for each $X \in \mathfrak{g}$.  \\ 
+\item $d \varphi :\mathfrak{g} \to \mathfrak{h}$ is a Lie algebra homomorphism. 
+\end{itemize}     
+We provide a proof:\\ 
+ Let $\tilde{X}=d \varphi (X)$. Then $\tilde{X}$ and $X$ are $\varphi $-related. For since $\varphi $ is a homomorphism, $L_{\varphi (g)}\circ \varphi =\varphi \circ L_{g}$; hence \\ 
+ \begin{align*}
+ \tilde{X}(\varphi (g))&=dL_{\varphi (g)}\tilde{X}(e) =dL_{\varphi (g)}d \varphi (X(e)) \\ 
+                       &=d(L_{\varphi (g)}\circ \varphi )X(e)=d(\varphi \circ L_{g})X_{e}=d \varphi (X(g)).
+  \end{align*} 
+  Now, for the second part, let $X, Y \in \mathfrak{g}$. 
+  Since $X$ and $\tilde{X}$ are $\varphi $-related, and $Y$ and $\tilde{Y}$ are $\varphi $-related, we know $\left[ X,Y \right] $ is $\varphi $-related to $\left[ \tilde{X},\tilde{Y} \right] $.\\ 
+  In particular, $\left[ \tilde{X},\tilde{Y} \right](e)=d \varphi (\left[ X,Y \right](e) ) $. But $\tilde{\left[ X, Y \right] }$ is the unique left invariant vector field on $H$ whose value at the identity is $d \varphi (\left[ X, Y \right](e) )$. \\ 
+  Thus, $\tilde{\left[ X,Y\right] }=\left[\tilde{X},\tilde{Y}\right]$.                   
+  \end{frame}
+
+\begin{frame}{Immersed submanifold}
+  A smooth map $F: M \to N$ is called a \textbf{smooth immersion} if $dF_{p}$ is injective for each $p \in M$. It can be proved that smooth immersion is injective.\\ 
+  We next state the \textbf{inverse function theorem}: Let $U \subseteq \mathbb{R} ^d$ be an open subset and $f: U \to \mathbb{R} ^d$ is a $C^{\infty }$  map. If the Jacobian $\left\{ \dfrac{\partial (r_{i}\circ f)}{\partial r_{j}}  \right\}_{d\times d} $ is 
+  non-singular at $r_{0}\in U$, then there exists an open subset $V$ such that $r_{0}\in V \subseteq U$ and $f|_{V}: V \to f(V)$ is a diffeomorphism. \\ 
+  A corollary is the \textbf{inverse function theorem on manifolds}: Let $\varphi: M \to N$ be smooth, $p \in M$ and $d \varphi _{p}: T_{p}M \to T_{\varphi (p)}N$ is an isomorphism. Then there exists an open neighborhood $U$ of $p$ in $M$ such that $\varphi |_{U}: U \to \varphi (U)$ is a diffeomorphism.               
+\end{frame} 
+
+\begin{frame}{Lie Subgroup}
+  A \textbf{Lie subgroup} $H$ of $G$ is a Lie group itself and a subgroup of $G$ such that the inclusion map $i: H\hookrightarrow G$ is a smooth immersion.\\ 
+  A connected Lie group $G$ can be generated by any open neighbourhood $U$ of $e$, i.e. $G=\bigcup\limits_{n=1}^{\infty } U^{n}$. \\ 
+  Proof is as follows: Consider an open neighbourhood $V$ of $e$, $e \in V \subseteq U$, such that $V=V^{-1}$. (we can take $V=U\cap U^{-1}$ ).\\ 
+  Let $H=\bigcup\limits_{n=1}^{\infty } V^{n} \subseteq \bigcup\limits_{n=1}^{\infty } U^{n}$. $H$ is an abstract subgroup of $G$ and is an open subset of $G$, since for any $\sigma \in H$, $H$ contains an open neighbourhood $\sigma V$ of $\sigma $. \\
+  We next show that a connected Lie group contains no nontrivial open subgroup: Consider the coset decomposition of $G$ relative to $H$: $G=\coprod\limits_{\sigma _{i}}\sigma _{i}H$ where $\sigma _{i}$ is the representative of each coset.\\ 
+  Then $G=H \cup \coprod\limits_{\sigma _{i}\neq 1} \sigma _{i}H$. Hence $H$ is open and closed at the same time.           
+\end{frame} 
+
+\section{Fundamental Theorems in Lie Theory}
+\begin{frame}{Fundamental Theorems of Lie Theory}
+  We state some fundamental theorems, which gives us a positive answer to the following question in the real case: Can every Lie algebra $\mathfrak{L}$ be realized as the Lie algebra $\mathfrak{g}$ of some Lie group $G$?\\
+  \textbf{Theorem 1}: For a Lie group, there is a one-to-one correspondence between connected Lie subgroups and subalgebras of its Lie algebra.\\ 
+  \textbf{Theorem 2}: Let $G$ and $H$ be Lie groups and assume $G$ is simply-connected ($\pi _{1}(G)=1$ ). Then each Lie algebra homomorphism $\varphi:\mathfrak{g} \to \mathfrak{h}$ can be lifted to a unique Lie group homomorphism.\\ 
+  \textbf{Theorem 3}: (\textbf{Ado's Theorem}) Every real Lie algebra admits a faithful finite-dimensional representation. \\ 
+  \textbf{Theorem 4}: There is a one-to-one correspondence between isomorphic classes of finite-dimensional Lie algebras and isomorphic classes of simply connected Lie groups.\\  
+\end{frame} 
+
+\begin{frame}{Fundamental Theorems of Lie Theory}
+We first state a theorem:\\ 
+Let $G$ be a Lie group with Lie algebra $\mathfrak{g}$, and let $\tilde{\mathfrak{h}} \subseteq \mathfrak{g}$ be a subalgebra. %Then there is a unique connected Lie subgroup $(H,\varphi )$ of $G$ such that $d \varphi (\mathfrak{h})=\tilde{\mathfrak{h}}$.\\ 
+One important corollary is the following theorem:\\    
+\textbf{Theorem 1}: For a Lie group, there is a one-to-one correspondence between connected Lie subgroups and subalgebras of its Lie algebra.
+\end{frame}
+
+\begin{frame}{Local Lie Group}
+To better explain this theorem, we introduce the concept of local Lie group: 
+Given two Lie groups $G, H$. A \textbf{local Lie group} of $G$ into $H$ is a pair $(\Phi ,U)$, where $U$ is an open connected neighbourhood of $e \in G$ 
+and $\Phi :U \to H$ is a smooth map such that $\Phi (xy)=\Phi (x)\Phi (y)$ whenever $x,y,xy \in U$.\\  
+We claim (\textbf{local lifting theorem}) if $G,H$ are Lie groups and $\varphi :\mathfrak{g} \to \mathfrak{h}$ is a homomorphism between there Lie algebras, then $\varphi $ can be lifted to a local homomorphism $\Phi$ of $G$ into $H$ with $d \Phi_{e} =\varphi $.\\         
+Proof goes as follows: Let $\mathfrak{s}=\left\{ (X,\varphi (X))\in \mathfrak{g}\oplus\mathfrak{h}: X \in \mathfrak{g} \right\} $ be the graph of $\varphi $, and let $S$ be the corresponding Lie subgroup.\\ 
+Let $\Phi _{G}$ and $\Phi_{H}$ be the restrictions to $S$ of the projections of $G\times H$ to $G$ and to $H$. 
+\begin{align*}
+d \Phi _{G}(X,\varphi (X))=\dfrac{d}{dt}|_{t=0} \Phi _{G}(\mathrm{exp}(tX),\mathrm{exp}(t \varphi (X)) )= \dfrac{d}{dt}|_{t=0}\mathrm{exp}(tX)=X
+ \end{align*} 
+So the differential of $\Phi _{G}$ is a homomorphism of $\mathfrak{s}$ to $\mathfrak{g}$ that carries $(X,\varphi  (X))$ to $X$, and it is an isomorphism. Then by the inverse function theorem, $\Phi _{G}$ is a local diffeomorphism
+and we assume the local inverse to be $\Psi $ from a neighbourhood of the identity in $G$ into $S$. Following $\Psi $ with $\Phi _{H}$ yields the desired local homomorphism $\Phi $ of $G$ into $H$.                    
+\end{frame}
+
+\begin{frame}{Fundamental Theorems of Lie Theory}
+We next state a result: If $(\Phi ,U)$ is a local homomorphism from $G$ into $H$ and if $G$ is simply-connected, then there exists a Lie group homomorphism $\Phi :G \to H$ such that $\Phi |_{U}=\Psi $.\\
+Putting this result and the local lifting theorem together, we obtain the \textbf{global lifting theorem}: Let $G$ and $H$ be Lie groups and assume $G$ is simply-connected ($\pi _{1}(G)=1$ ). Then each Lie algebra homomorphism $\varphi:\mathfrak{g} \to \mathfrak{h}$ can be lifted to a unique Lie group homomorphism.\\ 
+One important consequence of the global result is that: any two simply connected Lie groups with isomorphic Lie algebras are isomorphic. \\ 
+\end{frame}
+
+\begin{frame}{Covering Space}
+  We review some facts about covering spaces of manifolds and Lie groups.\\ 
+  Suppose $E, M$ are topological spaces. A map $\pi :E \to M$ is called a \textbf{covering map} if $E$ and $X$ are connected and locally path-connected, $\pi $ is surjective and continuous, and each point $p \in M$ has a neighbourhood $U$ 
+  that is \textbf{evenly covered by $\pi $}, meaning that each component of $\pi ^{-1}(U)$ is mapped homeomorphically onto $U$ by $\pi $. In this case, $M$ is called the \textbf{base of the covering}, and $E$ is called a \textbf{covering space of $M$ }.
+  If $U$ is an evenly covered subset of $M$, the components of $\pi ^{-1}(U)$ are called the \textbf{sheets of the covering $U$ } If $E$ is simply connected, it is called the \textbf{universal covering space of $M$ }. \\ 
+  If in addition, $E, M$ are connected smooth manifolds, a map $\pi: E \to M$ is called a \textbf{smooth covering map} if $\pi $ is smooth and surjective, and each point in $M$ has a neighborhood $U$ such that each component 
+  of $\pi ^{-1}(U)$ is mapped diffeomorphically onto $U$ by $\pi $. In this context, we also say that $U$ is evenly covered. The space $M$ is called the \textbf{base of the covering}, and $E$ is called a \textbf{covering manifold of $M$}. 
+  If $E$ is simply connected, it is called the \textbf{universal covering manifold of $M$ }.
+\end{frame} 
+
+\begin{frame}{Covering Space}
+If $\pi :E \to M$ is a covering map and $F:B \to M$ is a continuous map, a \textbf{lift of $F$ } is a continuous map $\tilde{F}:B \to E$ such that $\pi \circ \tilde{F}=F$:
+\begin{displaymath}
+\xymatrix{
+  & E \ar[d]^{\pi } \\ 
+  B \ar@{-->}[ru]^{\tilde{F}} \ar[r]_{F} &M
+}
+\end{displaymath} 
+\textbf{Lifting Properties of Covering Maps}: Suppose $\pi :E \to M$ is a covering map.
+\begin{itemize}
+\item \textbf{(Unique Lifting Property)}: If $B$ is a connected space and $F: B \to M$ is a continuous map, then any two lifts of $F$ that agree at one point are identical.    \\ 
+\item \textbf{(Path Lifting Property)}: If $f: I \to M$ is a path, then for any point $e \in E$ such that $\pi (e)=f(0)$, there exists a unique lift $\tilde{f}(e): I \to E$ of $f$ such that $\tilde{f}(0)=e$. \\ 
+\item \textbf{(Monodromy Theorem)}: If $f,g: I \to M$ are path-homotopic paths and $\tilde{f}_{e}, \tilde{g}_{e}$ are their lifts starting at the same point $e \in E$, then $\tilde{f}_{e}$ and $\tilde{g}_{e}$ are path-homotopic and $\tilde{f}_{e}(1)=\tilde{g}_{e}(1)$.            
+\end{itemize} 
+\end{frame}
+
+\begin{frame}{Covering Space}
+\textbf{Lifting Criterion}: Suppose $\pi :E \to M$ is a covering map, $Y$ is a connected and locally path-connected space, and $F: Y \to M$ is a continuous map. Let $y \in Y$ and $e \in E$ be such that $\pi (e)=F(y)$. Then there 
+exists a lift $\tilde{F}:Y \to E$ of $F$ satisfyinig $\tilde{F}(y)=e$ if and only if $F_{*}(\pi _{1}(Y,y))\subseteq \pi _{*}(\pi _{1}(E,e))$.          
+\begin{displaymath}
+  \xymatrix{
+    & E \ar[d]^{\pi } \\ 
+    Y \ar@{-->}[ru]^{\tilde{F}} \ar[r]_{F} &M
+  }
+  \end{displaymath} 
+  A topological space is said to be \textbf{locally simply connected} if it admits a basis of simply connected open subsets.\\
+\textbf{Coverings of Simply Connected Spaces}: If $M$ is a simply connected space, then every covering map $\pi :E \to M$ is a homeomorphism. \\ 
+If $M$ is a connected and locally simply connected topological space, there exists a simply connected topological space $\tilde{X}$ and a covering map $\pi:\tilde{X} \to X$.\\  
+\textbf{Existence of a Universal Covering Space}: If $\hat{\pi }: \hat{X} \to X$ is any other simply connected covering of $X$, there is a homeomorphism $\varphi :\tilde{X} \to \hat{X}$ such that $\hat{\pi }\circ \varphi =\pi $.   
+  \end{frame}
+
+\begin{frame}{Covering Space}
+We state some properties of smooth coverings:
+\begin{itemize}
+\item Every smooth covering map is a local diffeomorphism, a smooth submersion, an open map, and a smooth quotient map. \\ 
+\item An injective smooth covering map is a diffeomorphism. \\ 
+\item A topological covering map is a smooth covering map if and only if it is a local diffeomorphism.
+\end{itemize} 
+Let $G, H$ be connected Lie groups, and let $\varphi: G \to H$ be a homomorphism. Then $\varphi $ is a covering map if and only if $d \varphi: G_{e} \to H_{e}$ is an isomorphism.   
+  \end{frame}
+
+  \begin{frame}{Covering Space}
+\textbf{Covering spaces of smooth manifolds}: Suppose $M$ is a connected smooth $n$-manifold, $\pi :E \to M$ is a topological covering map. Then $E$ is a topological $n$-manifold and has a unique smooth structure such that $\pi $ is a smooth covering map.\\ 
+\textbf{Existence of a Universal Covering Manifold}: If $M$ is a connected smooth manifold, there exists a simply connected smooth manifold $\tilde{M}$, called the \textbf{universal covering manifold of $M$ }, and a smooth covering map
+$\pi : \tilde{M} \to M$. The universal covering map is unique in the following sense: if $\hat{M}$ is any other simply connected smooth manifold that admits a smooth covering map $\hat{\pi }: \hat{M} \to M$, then there exists a diffeomorphism 
+$\Phi :\tilde{M} \to \hat{M}$ such that $\hat{\pi }\circ \Phi =\pi $.       
+\end{frame}
+
+\begin{frame}{Covering Space}
+Using the result of the universal covering map and the lifting criterion, we can prove the following result of Lie groups:\\
+\textbf{Existence of a Universal Covering Group}: Let $G$ be a connected Lie group. There exists a simply connected Lie group $\tilde{G}$, called the \textbf{universal covering group of $G$ }, that admits a smooth covering map $\pi :\tilde{G} \to G$
+that is also a Lie group homomorphism. The universal covering group is unique in the following sense: if $\hat{G}$ is any other simply connected Lie group that admits a smooth covering map $\hat{\pi }: \hat{M} \to M$ that is also a Lie group homomorphism, 
+then there exists a Lie group isomorphism $\Phi:\tilde{G} \to \hat{G}$ such that $\hat{\pi }\circ \Phi =\pi $.  
+  \end{frame}
+
+  \begin{frame}{Covering Space}
+We summarize what we have done so far:
+\begin{displaymath}
+  \xymatrix{
+   \textbf{topological space} \ar[r] \ar[d] & \textbf{covering space} \ar[r] \ar[d]    & \textbf{universal covering space} \ar[d]  \\ 
+   \textbf{manifold}  \ar[r] \ar[d] & \textbf{covering manifold} \ar[r] & \textbf{universal covering manifold} \ar[d]    \\
+   \textbf{Lie groups}  &     & \textbf{universal covering group} 
+  }
+  \end{displaymath} 
+  You may wonder if we can induce a group structure on the covering space of a Lie group so that we can have the concept of a covering group. But in general, this does not hold, and if the covering space is not simply connected, we can not use 
+  the lifting criterion to construct the group structure in the covering space.
+  \end{frame}
+
+\begin{frame}{Fundamental Theorems of Lie Theory}
+  (\textbf{Ado's Theorem}) Every real Lie algebra admits a faithful finite-dimensional representation. \\ 
+  This result means that for every real Lie algebra $\mathfrak{L}$ , there exists a real linear space $V/\mathbb{R} $, such that $\mathfrak{L}$ is a Lie subalgebra of $\mathfrak{gl}(V)$.\\
+  Using Ado's theorem, we can imbed each real Lie algebra $\mathfrak{g}$  into $\mathfrak{gl}(V)$ for some vector space $V$. So now $\mathfrak{g}$ is a Lie subalgebra of the Lie group $\mathrm{GL}(V)$, then using the subgroup-subalgebra theorem,
+  we see that there is a connected Lie subgroup $G$ of $\mathrm{GL}(V)$ such that $\mathrm{Lie}(G)=\mathfrak{g}$. We thus give that question a positive answer in the real case.\\ 
+  Now let us consider the universal covering group $\tilde{G}$ of $G$ we just found. Since the universal covering group of a Lie group has the same Lie algebra as that Lie group, we know $\mathrm{Lie}(\tilde{G})=\mathfrak{g}$. So we not only find a Lie group $G$, 
+  but also a simply connected Lie group $\tilde{G}$ such that $\mathfrak{g}$ is the Lie algebra of $\tilde{G}$. Also note that if $\mathfrak{g}$ and $\mathfrak{h}$ are isomorphic, then the corresponding simply connected Lie groups are isomorphic.
+\end{frame}
+
+\begin{frame}{Fundamental Theorems of Lie Theory}
+Thus, we proved the following important theorem:\\ 
+  There is a one-to-one correspondence between isomorphic classes of Lie finite-dimensional Lie algebras and isomorphic classes of simply connected Lie groups. In other words, the category of finite-dimensional Lie algebras and that of simply connected Lie groups are equivalent.  
+\end{frame}
+
+\begin{frame}{Integral Curve}
+  We now illustrate some examples of applications of Lie theory to solve differential equations:\\ 
+  Let $X$ be a smooth vector field on $M$. A smooth curve $\sigma $ in $M$ is an \textbf{integral curve} of $X$ if, for each $t$ in the domain of $\sigma $,  
+  \begin{align*}
+  \sigma ^{\prime} (t)=X(\sigma (t))
+   \end{align*}  
+The integral curve is such that at each point of the curve, the tangent vector is given by the vector field $X$ at that point. In other words, the motion of the integral curve is governed by the vector field.\\ 
+Let $X$ be a smooth vector field on $M$ and $p \in M$. Let us now consider the question: Does there exist an integral curve of $X$ through $p$, and if so, is there a unique one?\\ 
+\end{frame} 
+
+\begin{frame}{Integral Curve}
+A curve $\gamma :(a,b) \to M$ is an integral curve of $X$ if and only if 
+\begin{align*}
+d \gamma (\dfrac{d}{dr}|_{t} )=X(\gamma (t)), (t \in (a,b))
+ \end{align*}  
+ Let us interpret this in coordinates. Suppose that $0 \in (a,b)$ and $\gamma (0)=p$. Choose a coordinate chart $(U,\varphi )$ with coordinate functions $x_{1},\ldots ,x_{n}$.
+ \begin{align*}
+ X|_{U}=\sum\limits_{i=1}^{n} f_{i}\dfrac{\partial}{\partial x_{i}}  
+  \end{align*} where $f_{i}$ are smooth functions on $U$. Moreover, for each $t$ such that $\gamma (t)\in U$,
+  \begin{align*}
+  d \gamma (\dfrac{d}{dr}|_{t} )=\sum\limits_{i=1}^{n} \dfrac{d(x_{i} \circ \gamma )}{dr}|_{t} \dfrac{\partial}{\partial x_{i}}|_{\gamma (t)}.   
+   \end{align*} Thus, combining these three equations, we have 
+   \begin{align*}
+   \sum\limits_{i=1}^{n} \dfrac{d(x_{i} \circ \gamma )}{dr}|_{t} \dfrac{\partial}{\partial x_{i}}|_{\gamma (t)} =\sum\limits_{i=1}^{n} f_{i}(\gamma (t)) \dfrac{\partial}{\partial x_{i}}|_{\gamma (t)}
+    \end{align*}          
+\end{frame}
+
+\begin{frame}{Integral Curve}
+  Thus $\gamma $ is an integral curve of $X$ on $\gamma ^{-1}(U)$ if and only if 
+  \begin{align*}
+  \dfrac{d \gamma _{i}}{dr}|_{t}=f_{i}\circ \varphi ^{-1}(\gamma _{1}(t),\ldots ,\gamma _{n}(t)), (i=1,\ldots ,n, t \in \gamma ^{-1}(U)) 
+   \end{align*} where $\gamma _{i}=x_{i}\circ \gamma $. This is a system of first-order ODEs for which there exists fundamental existence and uniqueness theorems: 
+  Let $X$ be a smooth vector field on a smooth manifold $M$. For each $p \in M$ there exists $a(p)$ and $b(p)$ in $\mathbb{R} \cup \{\pm \infty \}$, and a smooth curve 
+  \begin{align*}
+  \gamma _{p}:(a(p),b(p)) \to M
+   \end{align*} such that
+   \begin{itemize}
+   \item[(a)] $0 \in (a(p),b(p))$ and $\gamma _{p}=p$.   \\
+   \item[(b)] $\gamma _{p}$ is an integral curve of $X$. \\    
+   \item[(c)] If $\mu :(c,d) \to M$ is a smooth curve satisfying the first two conditions, then $(c,d) \subseteq (a(p),b(p))$ and $\mu =\gamma _{p}|_{(c,d)}$   
+   \end{itemize}
+  \end{frame}
+
+
+  \begin{frame}{Integral Curve}   
+   We continue with the statement of this result, and for each $t \in \mathbb{R} $, we define a transformation $X_{t}$ with the domain $\mathcal{D}_{t}=\{p \in M: t \in (a(p),b(p))\} $ by setting $X_{t}(p)=\gamma _{p}(t)$.\\
+   \begin{itemize}
+   \item[(d)] For each $p \in M$, there exists an open neighbourhood $V$ of $p$ and an $\varepsilon \textgreater 0$ such that the map \begin{align*}
+   (t,p)\mapsto X_{t}(p)
+    \end{align*} is defined and is smooth from $(-\varepsilon,\varepsilon)\times V$ into $M$.       \\ 
+   \item[(e)] $\mathcal{D}_{t}$ is open for each $t$. \\ 
+   \item[(f)] $\bigcup\limits_{t\textgreater 0} \mathcal{D}_{t}=M$. \\ 
+   \item[(g)] $X_{t}: \mathcal{D}_{t} \to \mathcal{D}_{-t}$ is a diffeomorphism with inverse $X_{-t}$. \\   
+   \item[(h)] Let $s$ and $t$ be real numbers. Then the domain of $X_{s}\circ X_{t}$ is contained in but generally not equal to $\mathcal{D}_{s+t}$. However, the domain of $X_{s}\circ X_{t}$ is $\mathcal{D}_{s+t}$ in the case in which 
+              $s$ and $t$ both have the same sign. Moreover, on the domain of $X_{s}\circ X_{t}$ we have \begin{align*}
+              X_{s}\circ X_{t}=X_{s+t}
+               \end{align*}    
+   \end{itemize}   
+\end{frame}
+
+\begin{frame}{Integral Curve}
+A smooth vector field $X$ on $M$ is \textbf{complete} if $\mathcal{D}_{t}=M$ for all $t$, in other words, the domain of $\gamma _{p}$ is $R=(-\infty ,\infty )$ for each $p \in M$. In this case, the transformation has the following properties:
+\begin{itemize}
+\item $X_{t}$ is a diffeomorphism for each $t$ with inverse $X_{-t}$.    \\ 
+\item $X_{s}\circ X_{t}=X_{s+t}$. 
+\end{itemize} 
+So the transformations $X_{t}$ form a group of diffeomorphisms of $M$ parametrized by the real numbers, and is called the \textbf{one-parameter group of $X$ }.\\ 
+We note that if a vector field is complete, the corresponding ODEs have a unique solution through $p \in M$, and the maximal existence interval of this solution is $\mathbb{R} =(-\infty,\infty )$. This means the solution can be extended to the whole real line.
+\end{frame}
+
+\begin{frame}{Integral Curve}
+We are next interested in the completer vector field, and fortunately, we have some important examples: \\ 
+Every compactly supported smooth vector field on a smooth manifold is complete, and thus every smooth vector field on a compact smooth manifold is complete. \\ 
+Every left-invariant vector field on a Lie group is complete.\\
+Another important result: Suppose $X$ is a smooth vector field on $M$. If $\gamma: J \to M$ is a maximal integral curve of $X$ whose domain $J$ has a finite least upper bound $b$, then for any $t_{0}\in J$, $\gamma ([t_{0},b))$ is not contained in any compact subset of $M$.      
+\end{frame}
+
+\begin{frame}{Exponential Map}
+  A Lie group homomorphism $\varphi : \mathbb{R}  \to G$ is called a \textbf{one-parameter subgroup of $G$ }.\\ 
+  Let $G$ be a Lie group, and let $\mathfrak{g}$ be its Lie algebra. Let $X \in \mathfrak{g}$. Then 
+  \begin{align*}
+  \lambda \dfrac{d}{dr} \mapsto \lambda X 
+   \end{align*} is a homomorphism of the Lie algebra $\mathbb{R} $ of $R$ into $\mathfrak{g}$. Since the real line $\mathbb{R} $ is simply connected, then the global lifting theorem guarantees there exists a unique one-parameter subgroup 
+   \begin{align*}
+   \mathrm{exp}_{X}: \mathbb{R} \to G 
+    \end{align*} such that 
+    \begin{align*}
+    d \mathrm{exp}_{X}(\lambda \dfrac{d}{dr} )=\lambda X 
+     \end{align*} In other words, the map $t \mapsto \mathrm{exp}_{X}(t) $ is the unique one-parameter subgroup of $G$ whose tangent vector at $t=0$ is $X(e)$. We define the \textbf{exponential map}:
+$\mathrm{exp}:\mathfrak{g} \to G$ by setting $\mathrm{exp}(X)=\mathrm{exp}_{X}(1)$.   
+\end{frame} 
+
+\begin{frame}{Exponential Map}
+  Let $X$ belong to the Lie algebra $\mathfrak{g}$ of the Lie group $G$. Then
+  \begin{itemize}
+  \item $\mathrm{exp}(tX)=\mathrm{exp}_{X}(t)$ for each $t \in \mathbb{R} $.   \\ 
+  \item $\mathrm{exp}(t_{1}+t_{2})X=(\mathrm{exp}t_{1}X)(\mathrm{exp}t_{2}X ) $ for all $t_{1},t_{2} \in \mathbb{R} $. \\ 
+  \item $\mathrm{exp}(-tX)=\mathrm{exp}(tX)^{-1} $ for each $t \in \mathbb{R} $. \\ 
+  \item $\mathrm{exp}: \mathfrak{g}\to G $ is smooth and $d \mathrm{exp}: \mathfrak{g}_{0}=\mathfrak{g} \to G_{e}=\mathfrak{g} $ is the identity map (with the usual identifications), so $\mathrm{exp}$ 
+  gives a diffeomorphism of a neighbourhood of $0$ in $\mathfrak{g}$ onto a neighbourhood of $e$ in $G$.  \\ 
+  \item $L_{g}\circ \mathrm{exp}_{X} $ is the unique integral curve of $X$ which takes the value $g \in G$ at $t=0$. As a particular consequence, left invariant vector fields are always complete. \\ 
+  \item The one-parameter group of diffeomorphisms $X_{t}$ associated with the left invariant vector field $X$ is given by ($R$ denote the right translation) 
+  \begin{align*}
+  X_{t}=R_{\mathrm{exp}_{X}(t) }
+   \end{align*}              
+  \end{itemize}    
+\end{frame} 
+
+\begin{frame}{Exponential Map}
+Let $\varphi: H \to G$ be a homomorphism, then the following diagram commutes:
+\begin{displaymath}
+  \xymatrix{
+  H \ar[r]^{\varphi }  & G \ar[d]^{\mathrm{exp}  } \\ 
+  \mathfrak{h} \ar[u]^{\mathrm{exp} } \ar[r]^{d \varphi } &\mathfrak{g}
+  }
+  \end{displaymath} 
+  This means, for each $X \in \mathfrak{h}$, 
+  \begin{align*}
+  \varphi (\mathrm{exp}X )=\mathrm{exp}(d \varphi (X)) 
+   \end{align*} 
+\end{frame}
+
+\begin{frame}{Exponential Map}
+We now turn to the general linear group $\mathrm{GL}(n,\mathbb{R} ) $  and its closed subgroups.\\ 
+Rather than the exponential map, we define the matrix exponentiation for $A \in \mathfrak{gl}(n,\mathbb{C} )$ : 
+\begin{align*}
+e^{A}=\sum\limits_{k=0}^{\infty } \dfrac{A^{k}}{k!}  
+\end{align*} 
+As a normed linear space, $\mathfrak{gl}(n,\mathbb{C} )$ is identified with the $2n^2$-dimensional Euclidean space $\mathbb{R} ^{2n^2}$ and thus is a Banach space. All norms in this space are equivalent, 
+so we can use $\left\lVert A \right\rVert =\sqrt{\sum\limits_{i,j=1}^{n} \left\lvert a_{ij} \right\rvert^2  }  $ as the norm in this space. The Weierstrass M-test tells us that the matrix exponentiation is a well-defined map and the defining 
+series converges uniformly and absolutely on any compact subspace. We next list two results without proof: 
+ \begin{align*}
+ &\mathrm{det}e^{A} = e^{\mathrm{trace}A } \mbox{ for } A \in \mathfrak{gl}(n,\mathbb{C} ) \\ 
+ &e^{A+B}=e^{A}e^{B} \mbox{ if } \left[ A,B \right]=0  
+  \end{align*} 
+\end{frame}
+
+\begin{frame}{Exponential Map}
+Now consider the map $t \mapsto e^{tA}$ of $\mathbb{R} $ into $\mathrm{GL}(n,\mathbb{C} ) $. It is smooth since the real and imaginary components of each entry of $e^{tA}$ are power series in $t$ with infinite radii of convergence. 
+Its tangent vector at $t=0$ is $A$ (simply differentiate the power series term by term since this is valid in the domain of convergence of the power series), and this map is a homomorphism. Thus $t \mapsto e^{tA}$ is the unique one-parameter subgroup of $\mathrm{GL}(n,\mathbb{C} ) $
+whose tangent vector at $t=0$ is $A$. So the exponential map for $\mathrm{GL}(n,\mathbb{C} ) $ is given by the exponentiation of matrices:
+\begin{align*}
+\mathrm{exp}(A)=e^{A}=\sum\limits_{k=0}^{\infty } \dfrac{A^k}{k!}.  
+ \end{align*}
+\end{frame}
+
+\begin{frame}{Exponential Map}
+ For$A \in \mathfrak{gl}(n,\mathbb{C} )$, $\gamma:t \mapsto \mathrm{exp}(tA)=e^{tA}$ is the unique one parameter subgroup (or integral curve starting at $e=I_{n}$) whose tangent vector at $t=0$ is $X(e)$. Here $X$ is the left invariant vector field $\mathrm{GL}(n,\mathbb{C} ) $ such that $X(e)=A$. 
+ For computation, $X$ is given by 
+ \begin{align*}
+ X(B)=(dL_{B})_{I_n}(A)=\dfrac{d}{dt}|_{t=0} L_{B}(I_{n}+tA) = \dfrac{d}{dt}|_{t=0} B+tBA = BA
+  \end{align*} So $\gamma ^{\prime} (t)=X(\gamma (t))=\gamma (t)A=e^{tA}A=Ae^{tA}$. The last equation follows from $B \mapsto BA$ and $B \mapsto AB$ are continuous maps, so $e^{tA}A=(\sum\limits_{k=0}^{\infty } \dfrac{A^{k}}{k!})A=\sum\limits_{k=0}^{\infty } \dfrac{A^{k}}{k!}A =A(\sum\limits_{k=0}^{\infty } \dfrac{A^{k}}{k!})=Ae^{tA}  $.\\ 
+  So we have proved an equation:
+  \begin{align*}
+  \dfrac{d (e^{tA})}{dt}=Ae^{tA}
+   \end{align*}             
+  \end{frame}
+
+\section{Applications to ODEs}
+\begin{frame}{Application to IVP of ODEs}
+We can use the Lie theory to solve the initial value problems of ODEs in $\mathbb{R} ^n$.  Now consider the Lie group $\mathbb{R} ^n$. Let $A$ be a $n\times n$ matrix, then for a given $x_{0} \in \mathbb{R} ^n$, the initial value problem:
+\begin{align*}
+\dot{x}&=Ax \\ 
+x(0)&=x_{0}
+ \end{align*} has a unique solution given by \begin{align*}
+ x(t)=e^{tA}x_{0}
+  \end{align*}   
+Proof goes as follows: the vector field on $G=\mathbb{R} ^n$ in this case is $X: x \mapsto Ax$. For each $x_{0}\in \mathbb{R} ^n$, there exists a maximal integral curve $\gamma _{x_{0}}: J_{x_{0}} \to \mathbb{R} ^n$ of $X$ starting at $x_{0}$. 
+Now $\sigma (t)=e^{tA}x_{0}$ is a curve strating at $x_{0}$ and $\sigma ^{\prime} (t)= \dfrac{d e^{tA}x_{0}}{dt} =\dfrac{d e^{tA}}{dt}x_{0}=Ae^{tA}x_{0}=A \sigma (t) $. This show $\sigma $ is a solution and by uniqueness, $\sigma(t)=e^{tA}x_{0}=\gamma _{x_{0}}(t) $ on their common domain. 
+Now $\sigma $ by definition is defined on $\mathbb{R} =(-\infty ,\infty )$, we know $J_{x_{0}}=\mathbb{R} =(-\infty ,\infty )$ and $\gamma_{x_{0}} (t)=e^{tA}x_{0}$ for all $t \in \mathbb{R} $.       
+\end{frame}
+
+\begin{frame}
+\textcolor{myNewColorA}{\Huge{\centerline{Thank you!}}}
+\end{frame}
+
+\end{document}
+
+
+
