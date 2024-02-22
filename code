@@ -32,11 +32,11 @@
 \setbeamerfont{institute}{size=\small}
 \title[City University of Hong Kong]{The correspondence between Lie groups and Lie algebras
 }
-\author[LW-c]{Louis Wong}
+\author[LW-c]{Shuo Wang}
 
 \institute[@my.cityu.edu.hk]{}
 \date[Presentation]
-{\today}
+{18th Feb. 2024}
 
 %------------------------------------------------------------
 %This block of commands puts the table of contents at the 
@@ -153,8 +153,8 @@
   A \textbf{tangent vector} at $p \in M$ is defined as $\gamma ^{\prime} (0)$ for some curve $\gamma $ on $M$ starting at $p$: $\gamma (0)=p$.\\
   Equivalently, a tangent vector $v \in T_{p}(M)$ can be viewed as a local derivative on $C^{\infty }(M)$: $v$ is linear functional of $C^{\infty }(M)$ and satisfies the Leibniz rule: $v(fg)=v(f)g(p)+v(g)f(p)$ for $f,g \in C^{\infty }(M)$, 
   where $\gamma ^{\prime} (0)(f):=\frac{d}{dt}|_{t=0} f \circ \gamma (t) $. \\ 
-  The \textbf{tangent space} can be defined as the quotient vector space: \[T_{p}M \triangleq \{\gamma ^{\prime} (0): \gamma \mbox{ is a } C^{1} \mbox{ curve }\}/\thicksim 
-  \] where the equivalence relation is as follows: $\gamma ^{\prime} (0)=\eta ^{\prime} (0)$ if $\gamma ^{\prime} (0)(f)=\eta ^{\prime} (0)(f) $ for each smooth function $f$ on $M$.\\
+  The \textbf{tangent space} can be defined as the quotient vector space: \[T_{p}M \triangleq \{\gamma: \gamma \mbox{ is a } C^{1} \mbox{ curve }\}/\thicksim = \{\gamma ^{\prime}(0): \gamma \mbox{ is a } C^{1} \mbox{ curve }\}
+  \] where the equivalence relation is as follows: $\gamma \sim \eta$ if $\gamma ^{\prime} (0)(f)=\eta ^{\prime} (0)(f) $ for each smooth function $f$ on $M$.\\
   
 \end{frame} 
 
@@ -823,6 +823,3 @@ Now $\sigma $ by definition is defined on $\mathbb{R} =(-\infty ,\infty )$, we k
 \end{frame}
 
 \end{document}
-
-
-
